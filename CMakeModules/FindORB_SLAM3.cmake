@@ -5,7 +5,7 @@
 #
 # To help the search ORB_SLAM3_ROOT_DIR environment variable as the path to ORB_SLAM3 root folder
 #  e.g. `set( ORB_SLAM3_ROOT_DIR=~/ORB_SLAM3) `
-set(ORB_SLAM3_ROOT_DIR "~/Install/ORB_SLAM/ORB_SLAM3")
+set(ORB_SLAM3_ROOT_DIR "~/externals/ORB_SLAM3")
 
 # message(${ORB_SLAM3_ROOT_DIR})
 # message(${ORB_SLAM3_ROOT_DIR}/include)
@@ -28,6 +28,10 @@ find_library(DBoW2_LIBRARY NAMES DBoW2
 # Find built-in g2o
 find_library(g2o_LIBRARY NAMES g2o
              PATHS ${ORB_SLAM3_ROOT_DIR}/Thirdparty/g2o/lib)
+
+# # Find built-in Sophus
+# find_library(g2o_LIBRARY NAMES g2o
+# PATHS ${ORB_SLAM3_ROOT_DIR}/Thirdparty/g2o/lib)
 
 
 

@@ -7,13 +7,14 @@ This repository is ROS2 wrapping to use ORB_SLAM3
 [![orbslam3_ros2](https://user-images.githubusercontent.com/31432135/220839530-786b8a28-d5af-4aa5-b4ed-6234c2f4ca33.PNG)](https://www.youtube.com/watch?v=zXeXL8q72lM)
 
 ## Prerequisites
-- I have tested on below version.
-  - Ubuntu 20.04
-  - ROS2 foxy
-  - OpenCV 4.2.0
+
+This Version is tested on :
+ - Ubuntu 22.04
+ - OpenCV 4.5.4
+ - ROS Humble
 
 - Build ORB_SLAM3
-  - Go to this [repo](https://github.com/zang09/ORB-SLAM3-STEREO-FIXED) and follow build instruction.
+  - Go to this [repo](https://github.com/akchobby/ORB_SLAM3) and follow build instruction.
 
 - Install related ROS2 package
 ```
@@ -28,9 +29,9 @@ $ cd ~/colcon_ws/src
 $ git clone https://github.com/zang09/ORB_SLAM3_ROS2.git orbslam3_ros2
 ```
 
-2. Change this [line](https://github.com/zang09/ORB_SLAM3_ROS2/blob/ee82428ed627922058b93fea1d647725c813584e/CMakeLists.txt#L5) to your own `python site-packages` path
+2. Change this [line](https://github.com/akchobby/ROS2_ORB_SLAM3/blob/00c54335ccc010d74c1e24e336aa817604124947/CMakeLists.txt#L5) to your own `python site-packages` path
 
-3. Change this [line](https://github.com/zang09/ORB_SLAM3_ROS2/blob/ee82428ed627922058b93fea1d647725c813584e/CMakeModules/FindORB_SLAM3.cmake#L8) to your own `ORB_SLAM3` path
+3. Change this [line](https://github.com/akchobby/ROS2_ORB_SLAM3/blob/00c54335ccc010d74c1e24e336aa817604124947/CMakeModules/FindORB_SLAM3.cmake#L8) to your own `ORB_SLAM3` path
 
 Now, you are ready to build!
 ```
@@ -46,8 +47,6 @@ $ cd ~/{ORB_SLAM3_ROOT_DIR}/Thirdparty/Sophus/build
 $ sudo make install
 ```
 
-2. Please compile with `OpenCV 4.2.0` version.
-Refer this [#issue](https://github.com/zang09/ORB_SLAM3_ROS2/issues/2#issuecomment-1251850857)
 
 ## How to use
 1. Source the workspace  

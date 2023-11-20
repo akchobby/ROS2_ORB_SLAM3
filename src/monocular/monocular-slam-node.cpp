@@ -43,9 +43,6 @@ void MonocularSlamNode::GrabImage(const ImageMsg::SharedPtr msg)
         return;
     }
 
-    std::cout<<"one frame has been sent"<<std::endl;
-
-
     Sophus::SE3f raw_pose = m_SLAM->TrackMonocular(m_cvImPtr->image, Utility::StampToSec(msg->header.stamp));
     std::vector<ORB_SLAM3::MapPoint*> k = m_SLAM->GetTrackedMapPoints();
     current_frame_time_ = tf2_ros::fromMsg(msg->header.stamp);
@@ -88,9 +85,7 @@ sensor_msgs::msg::PointCloud2 MonocularSlamNode::MapPointsToPointCloud (const st
   const int num_channels = 3; // x y z
  
 
-  std::cout << "check 1 " << std::endl;
   cloud.header.stamp = tf2_ros::toMsg(current_frame_time_);
-  std::cout <<"check 2 " << std::endl;
   cloud.header.frame_id = map_frame_id_param_;
   cloud.height = 1;
   cloud.width = map_points.size();
@@ -115,16 +110,13 @@ sensor_msgs::msg::PointCloud2 MonocularSlamNode::MapPointsToPointCloud (const st
   float data_array[num_channels];
   
   for (unsigned int i=0; i<cloud.width; i++) {
-    std::cout <<"check 3 " << std::endl;
-    std::cout <<map_points.size() << std::endl;
     // if (map_points.at(i)->nObs >= min_observations_per_point_) {
     // unique_lock<mutex> lock(ORB_SLAM3::MapPoint::mGlobalMutex);
     ORB_SLAM3::MapPoint* pMP = map_points[i];
-    std::cout <<"check 4 " << std::endl;
     if(pMP){
         if(!pMP->isBad())
             {
-                std::cout <<"check 5" << std::endl;
+      
                 data_array[0] = pMP->GetWorldPos()(2); //x. Do the transformation by just reading at the position of z instead of x
                 data_array[1] = -1.0* pMP->GetWorldPos()(0); //y. Do the transformation by just reading at the position of x instead of y
                 data_array[2] = -1.0* pMP->GetWorldPos()(1); //z. Do the transformation by just reading at the position of y instead of z
@@ -135,7 +127,6 @@ sensor_msgs::msg::PointCloud2 MonocularSlamNode::MapPointsToPointCloud (const st
             }
         }
   }
-  std::cout <<"check 5 " << std::endl;
   return cloud;
 }
 

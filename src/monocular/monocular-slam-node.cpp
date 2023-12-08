@@ -16,7 +16,6 @@ MonocularSlamNode::MonocularSlamNode(ORB_SLAM3::System* pSLAM)
         "dji/image",
         10,
         std::bind(&MonocularSlamNode::GrabImage, this, std::placeholders::_1));
-    std::cout << "slam changed" << std::endl;
 
     map_points_publisher_=this->create_publisher<sensor_msgs::msg::PointCloud2>("map_points", 1);
 }
@@ -120,7 +119,6 @@ sensor_msgs::msg::PointCloud2 MonocularSlamNode::MapPointsToPointCloud (const st
                 data_array[0] = pMP->GetWorldPos()(2); //x. Do the transformation by just reading at the position of z instead of x
                 data_array[1] = -1.0* pMP->GetWorldPos()(0); //y. Do the transformation by just reading at the position of x instead of y
                 data_array[2] = -1.0* pMP->GetWorldPos()(1); //z. Do the transformation by just reading at the position of y instead of z
-                //TODO dont hack the transformation but have a central conversion function for MapPointsToPointCloud and TransformFromMat
 
                 memcpy(cloud_data_ptr+(i*cloud.point_step), data_array, num_channels*sizeof(float));
         // }

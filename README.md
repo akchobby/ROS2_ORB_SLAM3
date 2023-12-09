@@ -8,50 +8,47 @@ This repository is ROS2 wrapping to use ORB_SLAM3
 
 ## Prerequisites
 
-This Version is tested on :
+
+Make sure you have the following installed:
+- git
+- [vcstool](https://github.com/dirk-thomas/vcstool?tab=readme-ov-file#how-to-install-vcstool)
+- wget
+
+All test on this repo were done on:
  - Ubuntu 22.04
  - OpenCV 4.5.4
  - ROS Humble
 
-- Build ORB_SLAM3
-  - Go to this [repo](https://github.com/akchobby/ORB_SLAM3) and follow build instruction.
+ The repository also contains a dockerfile for developers if using it through docker:
 
-- Install related ROS2 package
-```
-$ sudo apt install ros-$ROS_DISTRO-vision-opencv && sudo apt install ros-$ROS_DISTRO-message-filters
-```
+ - nvidia drivers
+ - nvidia container toolkit
 
-## How to build
-1. Clone repository to your ROS workspace
-```
-$ mkdir -p ros2_ws/src
-$ cd ros2_ws/src
-$ git clone https://github.com/akchobby/ROS2_ORB_SLAM3 orbslam3_ros2
-```
 
-2. Change this [line](https://github.com/akchobby/ROS2_ORB_SLAM3/blob/00c54335ccc010d74c1e24e336aa817604124947/CMakeLists.txt#L5) to your own `python site-packages` path
+## How to build (via Docker)
+1. From the folder of your choice, run the following command
 
-3. Change this [line](https://github.com/akchobby/ROS2_ORB_SLAM3/blob/00c54335ccc010d74c1e24e336aa817604124947/CMakeModules/FindORB_SLAM3.cmake#L8) to your own `ORB_SLAM3` path
-
-Now, you are ready to build!
+```bash
+wget https://raw.githubusercontent.com/akchobby/ROS2_ORB_SLAM3/main/repos.yaml
 ```
-$ cd ~/colcon_ws
-$ colcon build --symlink-install --packages-select orbslam3
+Note the command takes about 5-6 minutes to complete due to the large repos
+
+2. build the docker image by running the build script
+
+```bash
+./ros2_ws/src/ROS2_ORB_SLAM3/scripts/build_docker.sh
 ```
 
-## Troubleshootings
-1. If you cannot find `sophus/se3.hpp`:  
-Go to your `ORB_SLAM3_ROOT_DIR` and install sophus library.
-```
-$ cd ~/{ORB_SLAM3_ROOT_DIR}/Thirdparty/Sophus/build
-$ sudo make install
-```
+Its a comprehensive build and can take upto 15mins.
 
+3. Change this [line](https://github.com/akchobby/ROS2_ORB_SLAM3/blob/main/scripts/launch_docker.sh#L3) to your own `datasets` path
+
+Now, you are ready to run!
 
 ## How to use
-1. Source the workspace  
+1. Launch a container of via
 ```
-$ source ros2_ws/install/local_setup.bash
+./ros2_ws/src/ROS2_ORB_SLAM3/scripts/launch_docker.sh
 ```
 
 2. Run orbslam mode, which you want.  

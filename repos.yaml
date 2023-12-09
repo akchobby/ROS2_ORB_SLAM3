@@ -1,0 +1,13 @@
+repositories:
+  externals/ORB_SLAM3:
+    type: git
+    url: https://github.com/akchobby/ORB_SLAM3.git
+    version: master
+  externals/Pangolin:
+    type: git
+    url: https://github.com/stevenlovegrove/Pangolin.git
+    version: master
+  ros2_ws/src/ROS2_ORB_SLAM3:
+    type: git
+    url: https://github.com/akchobby/ROS2_ORB_SLAM3.git
+    version: main

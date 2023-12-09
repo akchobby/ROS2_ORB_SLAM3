@@ -51,26 +51,13 @@ Now, you are ready to run!
 ./ros2_ws/src/ROS2_ORB_SLAM3/scripts/launch_docker.sh
 ```
 
-2. Run orbslam mode, which you want.  
-This repository only support `MONO, STEREO, RGBD, STEREO-INERTIAL` mode now.  
-You can find vocabulary file and config file in here. (e.g. `orbslam3_ros2/vocabulary/ORBvoc.txt`, `orbslam3_ros2/config/monocular/TUM1.yaml` for monocular SLAM).
-  - `MONO` mode  
+For those not using docker, follow the command in [launch_orbslam.sh]() 
+This repository only supports `MONO` for now
 ```
-$ ros2 run orbslam3 mono PATH_TO_VOCABULARY PATH_TO_YAML_CONFIG_FILE
+ros2 run orbslam3 mono PATH_TO_VOCABULARY PATH_TO_YAML_CONFIG_FILE
 ```
-  - `STEREO` mode  
-```
-$ ros2 run orbslam3 stereo PATH_TO_VOCABULARY PATH_TO_YAML_CONFIG_FILE BOOL_RECTIFY
-```
-  - `RGBD` mode  
-```
-$ ros2 run orbslam3 rgbd PATH_TO_VOCABULARY PATH_TO_YAML_CONFIG_FILE
-```
-  - `STEREO-INERTIAL` mode  
-```
-$ ros2 run orbslam3 stereo-inertial PATH_TO_VOCABULARY PATH_TO_YAML_CONFIG_FILE BOOL_RECTIFY [BOOL_EQUALIZE]
-``` 
 
-## Acknowledgments
-This repository is modified from [this](https://github.com/curryc/ros2_orbslam3) repository.  
-To add `stereo-inertial` mode and improve build difficulites.
+## Further to improve
+
+- Getting flag related to map merge
+- Saving map should be service based

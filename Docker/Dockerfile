@@ -38,4 +38,4 @@ RUN /bin/bash -c '/root/ros2_ws/src/ROS2_ORB_SLAM3/scripts/install_orbslam3.sh'
 RUN mkdir -p /root/externals/
 RUN mkdir -p /root/datasets/
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bash_profile
-CMD ["bash", "-c", "source /opt/ros/humble/setup.bash; source /root/ros2_ws/install/setup.bash; /root/ros2_ws/src/ROS2_ORB_SLAM3/scripts/launch_orbslam.sh]
+CMD ["bash", "-c", "source /opt/ros/humble/setup.bash; source /root/ros2_ws/install/setup.bash; /root/ros2_ws/src/ROS2_ORB_SLAM3/scripts/launch_orbslam.sh"]

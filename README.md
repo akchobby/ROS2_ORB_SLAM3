@@ -19,7 +19,8 @@ All test on this repo were done on:
  - OpenCV 4.5.4
  - ROS Humble
 
- The repository also contains a dockerfile for developers if using it through docker:
+ The repository also contains a dockerfile for developers.
+ if using it through docker, ensure the below are installed:
 
  - nvidia drivers
  - nvidia container toolkit
@@ -59,7 +60,25 @@ This repository only supports `MONO` for now
 ros2 run orbslam3 mono PATH_TO_VOCABULARY PATH_TO_YAML_CONFIG_FILE
 ```
 
+## Topics
+
+### Subscribed
+
+name: `dji/image`
+type: `sensor msgs/msg/Image` 
+
+### Published
+
+only map points currently visible.
+name: `map_points`
+type: `sensor_msgs/msg/PointCloud2`
+
+Using the standard tf buffer
+name: `tf`
+type: `geometry_msgs/msg/TransformStamped`
+
 ## Further to improve
 
 - Getting flag related to map merge
 - Saving map should be service based
+- parameterizing componnents as ROS params.

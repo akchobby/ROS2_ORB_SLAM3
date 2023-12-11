@@ -64,8 +64,8 @@ ros2 run orbslam3 mono PATH_TO_VOCABULARY PATH_TO_YAML_CONFIG_FILE
 
 ### Subscribed
 
-name: `dji/image`
-type: `sensor msgs/msg/Image` 
+name: `dji/image`  
+type: `sensor msgs/msg/Image`   
 
 ### Published
 

@@ -69,11 +69,11 @@ type: `sensor msgs/msg/Image`
 
 ### Published
 
-only map points currently visible.
+only map points currently visible.  
 name: `map_points`  
 type: `sensor_msgs/msg/PointCloud2`  
 
-Using the standard tf buffer
+Using the standard tf buffer  
 name: `tf`  
 type: `geometry_msgs/msg/TransformStamped`  
 

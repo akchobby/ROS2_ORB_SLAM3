@@ -26,10 +26,12 @@ All test on this repo were done on:
 
 
 ## How to build (via Docker)
-1. From the folder of your choice, run the following command
+1. From the folder of your choice, run the following commands
 
 ```bash
 wget https://raw.githubusercontent.com/akchobby/ROS2_ORB_SLAM3/main/repos.yaml
+
+vcs import < repos.yaml 
 ```
 Note the command takes about 5-6 minutes to complete due to the large repos
 

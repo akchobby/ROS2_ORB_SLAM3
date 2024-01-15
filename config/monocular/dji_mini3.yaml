@@ -80,5 +80,5 @@ Viewer.ViewpointF: 500
 # Viewer.ViewpointF: 500
 
 
-# System.LoadAtlasFromFile: "/root/datasets/map"
-System.SaveAtlasToFile: "/root/datasets/map"
+System.LoadAtlasFromFile: "/root/datasets/map"
+# System.SaveAtlasToFile: "/root/datasets/map"

@@ -18,6 +18,7 @@ MonocularSlamNode::MonocularSlamNode(ORB_SLAM3::System* pSLAM)
         std::bind(&MonocularSlamNode::GrabImage, this, std::placeholders::_1));
 
     map_points_publisher_=this->create_publisher<sensor_msgs::msg::PointCloud2>("map_points", 1);
+    pose_publisher_=this->create_publisher<geometry_msgs::msg::PoseStamped>("/orbslam3/pose", 1);
 }
 
 MonocularSlamNode::~MonocularSlamNode()
@@ -71,6 +72,19 @@ void MonocularSlamNode::publish_position_as_transform (Sophus::SE3f &position){
   // Broadcast tf
   static tf2_ros::TransformBroadcaster tf_broadcaster(*this);
   tf_broadcaster.sendTransform(msg);    
+
+  // Publish pose stamped as well.
+  geometry_msgs::msg::PoseStamped pose_msg;
+  pose_msg.header = msg.header;
+  pose_msg.pose.position.x = msg.transform.translation.x;
+  pose_msg.pose.position.y = msg.transform.translation.y;
+  pose_msg.pose.position.z = msg.transform.translation.z;
+  pose_msg.pose.orientation.x = msg.transform.rotation.x;
+  pose_msg.pose.orientation.y = msg.transform.rotation.y;
+  pose_msg.pose.orientation.z = msg.transform.rotation.z;
+  pose_msg.pose.orientation.w = msg.transform.rotation.w;
+  pose_publisher_->publish(pose_msg);
+
 }
 
 
@@ -109,8 +123,6 @@ sensor_msgs::msg::PointCloud2 MonocularSlamNode::MapPointsToPointCloud (const st
   float data_array[num_channels];
   
   for (unsigned int i=0; i<cloud.width; i++) {
-    // if (map_points.at(i)->nObs >= min_observations_per_point_) {
-    // unique_lock<mutex> lock(ORB_SLAM3::MapPoint::mGlobalMutex);
     ORB_SLAM3::MapPoint* pMP = map_points[i];
     if(pMP){
         if(!pMP->isBad())

@@ -70,9 +70,9 @@ install(TARGETS mono rgbd stereo stereo-inertial
   DESTINATION lib/${PROJECT_NAME})
 
 # copy meshes to share directory
-install(FILES meshes
- DESTINATION share/${PROJECT_NAME}
-)
+# install(FILES meshes
+#  DESTINATION share/${PROJECT_NAME}
+# )
 
 # Install launch files.
 #install(DIRECTORY launch config vocabulary

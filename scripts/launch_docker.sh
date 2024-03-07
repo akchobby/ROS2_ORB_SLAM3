@@ -16,7 +16,7 @@ if [ "$1" = "dev" ] ;then
                                                                                 -v $DATASETS_PATH:/root/datasets \
                                                                                 -v $SRC_PATH:/root/ros2_ws/src \
                                                                                 -v /dev/shm:/dev/shm \
-                                                                                vitro_localization_ros2:latest
+                                                                                vitro_localization_ros2:latest bash
 
 else
     docker run -it --rm --name ros2_vitro_localization --privileged --net=host --device=/dev/video0:/dev/video0 \

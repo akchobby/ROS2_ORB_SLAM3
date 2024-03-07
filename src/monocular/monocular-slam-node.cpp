@@ -12,13 +12,24 @@ MonocularSlamNode::MonocularSlamNode(ORB_SLAM3::System* pSLAM)
     target_frame_id_param_ = "camera";
     map_frame_id_param_    = "map";
     // std::cout << "slam changed" << std::endl;
+
+    std::string topic_image = this->declare_parameter<std::string>("topic_image", "/dji/image");
+    std::string topic_pointcloud = this->declare_parameter<std::string>("topic_pointcloud", "/map_points");
+    std::string topic_pose = this->declare_parameter<std::string>("topic_pose", "/pose");
+
+    // Display parameters
+    RCLCPP_INFO(this->get_logger(), " topic_image : %s", topic_image.c_str());
+    RCLCPP_INFO(this->get_logger(), " topic_pointcloud : %s", topic_pointcloud.c_str());
+    RCLCPP_INFO(this->get_logger(), " topic_pose : %s", topic_pose.c_str());
+
+
     m_image_subscriber = this->create_subscription<ImageMsg>(
-        "dji/image",
+        topic_image,
         10,
         std::bind(&MonocularSlamNode::GrabImage, this, std::placeholders::_1));
 
-    map_points_publisher_=this->create_publisher<sensor_msgs::msg::PointCloud2>("map_points", 1);
-    pose_publisher_=this->create_publisher<geometry_msgs::msg::PoseStamped>("/orbslam3/pose", 1);
+    map_points_publisher_=this->create_publisher<sensor_msgs::msg::PointCloud2>(topic_pointcloud, 1);
+    pose_publisher_=this->create_publisher<geometry_msgs::msg::PoseStamped>(topic_pose, 1);
 }
 
 MonocularSlamNode::~MonocularSlamNode()

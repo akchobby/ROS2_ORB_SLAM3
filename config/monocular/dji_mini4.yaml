@@ -6,23 +6,23 @@
 Camera.type: "PinHole"
 
 # Left Camera calibration and distortion parameters (OpenCV)
-Camera.fx: 904.4821
-Camera.fy: 905.05993
-Camera.cx: 647.73708
-Camera.cy: 354.0628
+Camera.fx: 1442.11445
+Camera.fy: 1441.11734
+Camera.cx: 531.10286
+Camera.cy: 949.10054
 
 # distortion parameters
-Camera.k1: 0.086490
-Camera.k2: -0.106019
-Camera.p1: -0.000870
-Camera.p2: 0.001340
+Camera.k1: 0.100083
+Camera.k2: -0.130807
+Camera.p1: -0.002051
+Camera.p2: -0.000509
 
 # Camera resolution
-Camera.width: 1280
-Camera.height: 720
+Camera.width: 1080
+Camera.height: 1920
 
 # Camera frames per second 
-Camera.fps: 30.0
+Camera.fps: 1.0 #25.0
 
 # Color order of the images (0: BGR, 1: RGB. It is ignored if images are grayscale)
 Camera.RGB: 0
@@ -80,5 +80,5 @@ Viewer.ViewpointF: 500
 # Viewer.ViewpointF: 500
 
 
-# System.LoadAtlasFromFile: "/root/datasets/lab5"
+#System.LoadAtlasFromFile: "/root/datasets/map"
 System.SaveAtlasToFile: "/root/datasets/map"

@@ -1,6 +1,6 @@
 FILE_DIR=$(realpath $(dirname $0))
 FOLDER_PATH="../../../../ros2_ws"
-DATASETS_PATH="$HOME/Datasets/vitro/recordings"
+DATASETS_PATH="$HOME/datasets/vitro"
 CONFIG_PATH=$FILE_DIR/../config
 SRC_PATH=$FILE_DIR/$FOLDER_PATH/src
 

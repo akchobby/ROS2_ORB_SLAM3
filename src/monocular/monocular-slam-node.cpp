@@ -16,16 +16,20 @@ MonocularSlamNode::MonocularSlamNode(ORB_SLAM3::System* pSLAM)
     std::string topic_image = this->declare_parameter<std::string>("topic_image", "/dji/image");
     std::string topic_pointcloud = this->declare_parameter<std::string>("topic_pointcloud", "/map_points");
     std::string topic_pose = this->declare_parameter<std::string>("topic_pose", "/pose");
+    target_frame_id_param_ = this->declare_parameter<std::string>("frame_id", "viz_odom");
 
     // Display parameters
     RCLCPP_INFO(this->get_logger(), " topic_image : %s", topic_image.c_str());
     RCLCPP_INFO(this->get_logger(), " topic_pointcloud : %s", topic_pointcloud.c_str());
     RCLCPP_INFO(this->get_logger(), " topic_pose : %s", topic_pose.c_str());
+    RCLCPP_INFO(this->get_logger(), " Frame id : %s", target_frame_id_param_.c_str());
 
+    rmw_qos_profile_t qos_profile = rmw_qos_profile_sensor_data;
+    auto qos = rclcpp::QoS(rclcpp::QoSInitialization(qos_profile.history, 1), qos_profile);
 
     m_image_subscriber = this->create_subscription<ImageMsg>(
         topic_image,
-        10,
+        qos,
         std::bind(&MonocularSlamNode::GrabImage, this, std::placeholders::_1));
 
     map_points_publisher_=this->create_publisher<sensor_msgs::msg::PointCloud2>(topic_pointcloud, 1);
@@ -221,7 +225,6 @@ tf2::Transform MonocularSlamNode::transform_from_mat (Sophus::SE3f &se3) {
 //   tf_map2target = tf_map2orig * tf_orig2target;
 //   return tf_map2target;
 // }
-
 
 void MonocularSlamNode::publish_map(std::vector<ORB_SLAM3::MapPoint*> &k){
         if(k.size()> 0){

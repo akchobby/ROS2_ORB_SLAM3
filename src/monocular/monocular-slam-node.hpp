@@ -5,6 +5,8 @@
 #include "sensor_msgs/msg/image.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
+#include "rmw/types.h"
+#include "rclcpp/qos.hpp"
 
 #include <cv_bridge/cv_bridge.h>
 

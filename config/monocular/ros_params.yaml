@@ -1,8 +1,8 @@
 ORB_SLAM3_ROS2:
   ros__parameters:
     topic_image: /dji/camera/image #/dji/camera/image # 
-    topic_pointcloud: "/orbsalm3/map_points"
+    topic_pointcloud: "/orbslam3/map_points"
     topic_pose: "/orbslam3/pose"
-    frame_id: "camera"
+    frame_id: "camera_orb"
     
 

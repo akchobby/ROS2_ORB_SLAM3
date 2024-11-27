@@ -19,6 +19,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 find_package(cv_bridge REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(tf2 REQUIRED)
@@ -45,7 +46,7 @@ add_executable(mono
   src/monocular/mono.cpp
   src/monocular/monocular-slam-node.cpp
 )
-ament_target_dependencies(mono rclcpp sensor_msgs geometry_msgs tf2_ros tf2 tf2_geometry_msgs cv_bridge ORB_SLAM3 Pangolin)
+ament_target_dependencies(mono rclcpp sensor_msgs geometry_msgs tf2_ros tf2 tf2_geometry_msgs nav_msgs cv_bridge ORB_SLAM3 Pangolin)
 
 add_executable(rgbd
   src/rgbd/rgbd.cpp

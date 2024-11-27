@@ -16,16 +16,19 @@ MonocularSlamNode::MonocularSlamNode(ORB_SLAM3::System* pSLAM)
     std::string topic_image = this->declare_parameter<std::string>("topic_image", "/dji/image");
     std::string topic_pointcloud = this->declare_parameter<std::string>("topic_pointcloud", "/map_points");
     std::string topic_pose = this->declare_parameter<std::string>("topic_pose", "/pose");
+    std::string topic_odom = this->declare_parameter<std::string>("topic_odom", "/visual_odometry");
     target_frame_id_param_ = this->declare_parameter<std::string>("frame_id", "viz_odom");
 
     // Display parameters
     RCLCPP_INFO(this->get_logger(), " topic_image : %s", topic_image.c_str());
     RCLCPP_INFO(this->get_logger(), " topic_pointcloud : %s", topic_pointcloud.c_str());
     RCLCPP_INFO(this->get_logger(), " topic_pose : %s", topic_pose.c_str());
+    RCLCPP_INFO(this->get_logger(), " topic_odom : %s", topic_odom.c_str());
     RCLCPP_INFO(this->get_logger(), " Frame id : %s", target_frame_id_param_.c_str());
 
     rmw_qos_profile_t qos_profile = rmw_qos_profile_sensor_data;
     auto qos = rclcpp::QoS(rclcpp::QoSInitialization(qos_profile.history, 1), qos_profile);
+    first_run_ = true;
 
     m_image_subscriber = this->create_subscription<ImageMsg>(
         topic_image,
@@ -34,6 +37,7 @@ MonocularSlamNode::MonocularSlamNode(ORB_SLAM3::System* pSLAM)
 
     map_points_publisher_=this->create_publisher<sensor_msgs::msg::PointCloud2>(topic_pointcloud, 1);
     pose_publisher_=this->create_publisher<geometry_msgs::msg::PoseStamped>(topic_pose, 1);
+    odometry_publisher_=this->create_publisher<nav_msgs::msg::Odometry>(topic_odom, 1);
 }
 
 MonocularSlamNode::~MonocularSlamNode()
@@ -99,6 +103,49 @@ void MonocularSlamNode::publish_position_as_transform (Sophus::SE3f &position){
   pose_msg.pose.orientation.z = msg.transform.rotation.z;
   pose_msg.pose.orientation.w = msg.transform.rotation.w;
   pose_publisher_->publish(pose_msg);
+
+
+  // Publish odometry message
+  nav_msgs::msg::Odometry odom_msg;
+  odom_msg.header = msg.header;
+  odom_msg.child_frame_id = target_frame_id_param_;
+  odom_msg.pose.pose = pose_msg.pose;
+
+  // compute twist  from previous pose
+
+  if (!first_run_) {
+    // Compute time difference
+
+
+    double dt = std::chrono::duration_cast<std::chrono::duration<double>>(current_frame_time_ - previous_frame_time_).count();
+    if (dt == 0) {
+      RCLCPP_ERROR_ONCE(this->get_logger(), "Time difference is zero. Odometry velocities cant be computed, Check image timestamp.");
+      return;
+    }
+
+    // Compute velocity
+    tf2::Vector3 linear_velocity = (tf_transform.getOrigin() - previous_transform_.getOrigin()) / dt;
+
+    tf2::Quaternion delta_rotation = tf_transform.getRotation() * previous_transform_.getRotation().inverse();
+    tf2::Vector3 angular_velocity = (delta_rotation.getAxis() * delta_rotation.getAngle()) / dt;
+
+    // Fill in the twist part of the odometry message
+    odom_msg.twist.twist.linear.x = linear_velocity.x();
+    odom_msg.twist.twist.linear.y = linear_velocity.y();
+    odom_msg.twist.twist.linear.z = linear_velocity.z();
+    odom_msg.twist.twist.angular.x = angular_velocity.x();
+    odom_msg.twist.twist.angular.y = angular_velocity.y();
+    odom_msg.twist.twist.angular.z = angular_velocity.z();
+  } else {
+    first_run_ = false;
+  }
+
+  // Update previous transform and time
+  previous_transform_ = tf_transform;
+  previous_frame_time_ = current_frame_time_;
+
+  // Publish the odometry message
+  odometry_publisher_->publish(odom_msg);
 
 }
 

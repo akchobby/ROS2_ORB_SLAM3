@@ -5,6 +5,7 @@
 #include "sensor_msgs/msg/image.hpp"
 #include "geometry_msgs/msg/pose_stamped.hpp"
 #include "sensor_msgs/msg/point_cloud2.hpp"
+#include "nav_msgs/msg/odometry.hpp"
 #include "rmw/types.h"
 #include "rclcpp/qos.hpp"
 
@@ -48,11 +49,16 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr m_image_subscriber;
     rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr map_points_publisher_;
     rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr pose_publisher_;
+    rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr odometry_publisher_;
 
     // rosparams
     std::string camera_frame_id_param_, target_frame_id_param_, map_frame_id_param_;
 
     tf2::TimePoint current_frame_time_;
+    tf2::TimePoint previous_frame_time_;
+    tf2::Transform previous_transform_;
+    bool first_run_ = true;
+
     int min_observations_per_point_ = 2;
 
 };
